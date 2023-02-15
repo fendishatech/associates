@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// BLOG TABLES
+
+model Author {
+  id          Int     @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String  @unique
+  title       String?
+  jobPosition String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  blogs Blog[]
+
+  @@map("authors")
+}
+
+model Blog {
+  id      Int    @id @default(autoincrement())
+  title   String @unique
+  image   String
+  content String
+  slug    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId Int
+  author   Author @relation(fields: [authorId], references: [id])
+
+  @@map("blogs")
+}
+
+// JOB TABLES
+
+enum Level {
+  UNDER_GRADUATE
+  DEGREE
+  MASTERS
+  PHD
+}
+
+model Job {
+  id           Int      @id @default(autoincrement())
+  title        String
+  level        Level    @default(DEGREE)
+  deadline     DateTime
+  edu_level    String
+  experience   String
+  description  String
+  requirements String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidates Candidate[]
+
+  @@map("jobs")
+}
+
+model Candidate {
+  id         Int    @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  email      String @unique
+  phoneNo    Int    @unique
+  cvFile     String
+  edu_level  String
+  experience String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  jobId Int
+  job   Job @relation(fields: [jobId], references: [id])
+
+  @@map("candidates")
+}
+
+model Experience {
+  id      Int    @id @default(autoincrement())
+  title   String @unique
+  image   String
+  content String
+  slug    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("experiences")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String @unique
+  phoneNo   Int    @unique
+  role      Role   @default(ADMIN)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}

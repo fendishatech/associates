@@ -1,0 +1,29 @@
+###
+GET http://localhost:8888/api/authors HTTP/1.1
+
+###
+GET http://localhost:8888/api/authors/3 HTTP/1.1
+
+###
+POST http://localhost:8888/api/authors/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Kidus",
+    "lastName" : "Taye",
+    "email"   :   "kidus2@gmail.com",
+    "title" :      "Dr.",
+    "jobPosition" : "Fullstack Developer"
+}
+
+###
+PUT http://localhost:8888/api/authors/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "title" :      "Prof",
+    "jobPosition" : "Full-stack Developer"
+}
+
+###
+DELETE  http://localhost:8888/api/authors/3 HTTP/1.1
