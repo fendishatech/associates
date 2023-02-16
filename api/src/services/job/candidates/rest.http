@@ -1,0 +1,32 @@
+###
+GET http://localhost:8888/api/candidates HTTP/1.1
+
+###
+GET http://localhost:8888/api/candidates/7 HTTP/1.1
+
+###
+POST http://localhost:8888/api/candidates/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Kidus",
+    "lastName" : "Taye",
+    "email"   :   "kidus8@gmail.com",
+    "title" :      "Dr.",
+    "candidatePosition" : "Fullstack Developer"
+}
+
+###
+PUT http://localhost:8888/api/candidates/7 HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Ella",
+    "lastName" : "Taye",
+    "email"   :   "kidus8@gmail.com",
+    "title" :      "Dr.",
+    "candidatePosition" : "Fullstack Developer"
+}
+
+###
+DELETE  http://localhost:8888/api/candidates/8 HTTP/1.1

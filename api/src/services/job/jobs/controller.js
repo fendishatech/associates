@@ -1,8 +1,8 @@
 const { db } = require("../../../helper/mysql_client.js");
 
-const getBlogs = (req, res) => {
+const getJobs = (req, res) => {
   try {
-    const q = "SELECT * FROM blogs";
+    const q = "SELECT * FROM jobs";
 
     db.query(q, (err, data) => {
       if (err) {
@@ -16,7 +16,7 @@ const getBlogs = (req, res) => {
       return res.status(200).json({
         success: true,
         payload: data,
-        message: "Blogs list",
+        message: "Jobs list",
       });
     });
   } catch (error) {
@@ -28,9 +28,9 @@ const getBlogs = (req, res) => {
   }
 };
 
-const getBlogById = async (req, res) => {
+const getJobById = async (req, res) => {
   try {
-    const q = "SELECT * FROM blogs WHERE id = ?";
+    const q = "SELECT * FROM jobs WHERE id = ?";
 
     db.query(q, [req.params.id], (err, data) => {
       if (err) {
@@ -44,7 +44,7 @@ const getBlogById = async (req, res) => {
       return res.status(200).json({
         success: true,
         payload: data,
-        message: "Blog Found",
+        message: "Job Found",
       });
     });
   } catch (error) {
@@ -56,9 +56,9 @@ const getBlogById = async (req, res) => {
   }
 };
 
-const createBlog = async (req, res) => {
+const createJob = async (req, res) => {
   const q =
-    "INSERT INTO blogs(`firstName`, `lastName`, `email`, `title`, `jobPosition`) VALUES (?)";
+    "INSERT INTO jobs(`firstName`, `lastName`, `email`, `title`, `jobPosition`) VALUES (?)";
 
   const values = [
     req.body.firstName,
@@ -79,16 +79,16 @@ const createBlog = async (req, res) => {
     return res.status(200).json({
       success: true,
       payload: data,
-      message: "Blog Created Successfully",
+      message: "Job Created Successfully",
     });
   });
 };
 
-const updateBlog = async (req, res) => {
-  const blogId = req.params.id;
+const updateJob = async (req, res) => {
+  const jobId = req.params.id;
 
   const q =
-    "UPDATE blogs SET `firstName` =?, `lastName` =?, `email` =?, `title` =?, `jobPosition` =? WHERE `id` = ?";
+    "UPDATE jobs SET `firstName` =?, `lastName` =?, `email` =?, `title` =?, `jobPosition` =? WHERE `id` = ?";
 
   const values = [
     req.body.firstName,
@@ -98,8 +98,8 @@ const updateBlog = async (req, res) => {
     req.body.jobPosition,
   ];
 
-  // REQUIRE ALL THE VALUES OF THE OLD BLOG DATA THATS NOT UPDATED
-  db.query(q, [...values, blogId], (err, data) => {
+  // REQUIRE ALL THE VALUES OF THE OLD JOB DATA THATS NOT UPDATED
+  db.query(q, [...values, jobId], (err, data) => {
     if (err) {
       return res.status(500).json({
         success: false,
@@ -110,13 +110,13 @@ const updateBlog = async (req, res) => {
     return res.status(200).json({
       success: true,
       payload: data,
-      message: "Blog Updated Successfully",
+      message: "Job Updated Successfully",
     });
   });
 };
 
-const deleteBlog = async (req, res) => {
-  const q = "DELETE FROM blogs WHERE `id` = ?";
+const deleteJob = async (req, res) => {
+  const q = "DELETE FROM jobs WHERE `id` = ?";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) {
@@ -130,15 +130,15 @@ const deleteBlog = async (req, res) => {
     return res.status(200).json({
       success: true,
       payload: data,
-      message: "Blog Deleted Successfully",
+      message: "Job Deleted Successfully",
     });
   });
 };
 
 module.exports = {
-  getBlogs,
-  getBlogById,
-  createBlog,
-  updateBlog,
-  deleteBlog,
+  getJobs,
+  getJobById,
+  createJob,
+  updateJob,
+  deleteJob,
 };
