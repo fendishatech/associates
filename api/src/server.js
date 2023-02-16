@@ -1,13 +1,14 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import authorRouter from "./services/blog/authors/routes.js";
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const authorRouter = require("./services/blog/authors/routes.js");
 
 dotenv.config();
 
 const app = express();
 
 // MIDDLEWARE
+// app.use(cors({ origin: process.env.REMOTE_CLIENT_APP, credentials: true }));
 app.use(cors());
 app.use(express.json());
 

@@ -1,7 +1,6 @@
 {
   "name": "az_associates_api",
   "version": "1.0.0",
-  "type": "module",
   "description": "API Interface for the az associates website",
   "main": "./src/server.js",
   "scripts": {

@@ -1,9 +1,9 @@
 /* -------------------------------------------------------------------------- */
 /* ------------------------------- WITH MYSQL ------------------------------ */
 /* -------------------------------------------------------------------------- */
-import { db } from "../../../helper/mysql_client.js";
+const { db } = require("../../../helper/mysql_client.js");
 
-export const getAuthors = (req, res) => {
+const getAuthors = (req, res) => {
   try {
     const q = "SELECT * FROM authors";
 
@@ -31,7 +31,7 @@ export const getAuthors = (req, res) => {
   }
 };
 
-export const getAuthorById = async (req, res) => {
+const getAuthorById = async (req, res) => {
   try {
     const q = "SELECT * FROM authors WHERE id = ?";
 
@@ -59,7 +59,7 @@ export const getAuthorById = async (req, res) => {
   }
 };
 
-export const createAuthor = async (req, res) => {
+const createAuthor = async (req, res) => {
   const q =
     "INSERT INTO authors(`firstName`, `lastName`, `email`, `title`, `jobPosition`) VALUES (?)";
 
@@ -87,7 +87,7 @@ export const createAuthor = async (req, res) => {
   });
 };
 
-export const updateAuthor = async (req, res) => {
+const updateAuthor = async (req, res) => {
   const authorId = req.params.id;
 
   const q =
@@ -118,7 +118,7 @@ export const updateAuthor = async (req, res) => {
   });
 };
 
-export const deleteAuthor = async (req, res) => {
+const deleteAuthor = async (req, res) => {
   const q = "DELETE FROM authors WHERE `id` = ?";
 
   db.query(q, [req.params.id], (err, data) => {
@@ -138,9 +138,16 @@ export const deleteAuthor = async (req, res) => {
   });
 };
 
-/* -------------------------------------------------------------------------- */
-/* ------------------------------- WITH PRISMA ------------------------------ */
-/* -------------------------------------------------------------------------- */
+module.exports = {
+  getAuthors,
+  getAuthorById,
+  createAuthor,
+  updateAuthor,
+  deleteAuthor,
+};
+/* ^ -------------------------------------------------------------------------- */
+/* ^ ------------------------------- WITH PRISMA ------------------------------ */
+/* ^ -------------------------------------------------------------------------- */
 
 // import prisma from "../../../helper/prisma_client.js";
 
