@@ -1,16 +1,29 @@
-import prisma from "../../../helper/prisma_client.js";
+/* -------------------------------------------------------------------------- */
+/* ------------------------------- WITH MYSQL ------------------------------ */
+/* -------------------------------------------------------------------------- */
+import { db } from "../../../helper/mysql_client.js";
 
-export const getAuthors = async (req, res) => {
+export const getAuthors = (req, res) => {
   try {
-    const authors = await prisma.author.findMany();
+    const q = "SELECT * FROM authors";
 
-    res.status(200).json({
-      success: true,
-      payload: authors,
-      message: "Authors list",
+    db.query(q, (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          payload: null,
+          message: err.message,
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        payload: data,
+        message: "Authors list",
+      });
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       payload: null,
       message: error.message,
@@ -20,19 +33,25 @@ export const getAuthors = async (req, res) => {
 
 export const getAuthorById = async (req, res) => {
   try {
-    const author = await prisma.author.findUnique({
-      where: {
-        id: Number(req.params.id),
-      },
-    });
+    const q = "SELECT * FROM authors WHERE id = ?";
 
-    res.status(200).json({
-      success: true,
-      payload: author,
-      message: "Author Found",
+    db.query(q, [req.params.id], (err, data) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          payload: null,
+          message: err.message,
+        });
+      }
+      // IF data IS EMPTY RETURN NOTICE
+      return res.status(200).json({
+        success: true,
+        payload: data,
+        message: "Author Found",
+      });
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       payload: null,
       message: error.message,
@@ -41,76 +60,201 @@ export const getAuthorById = async (req, res) => {
 };
 
 export const createAuthor = async (req, res) => {
-  try {
-    const authorData = req.body;
+  const q =
+    "INSERT INTO authors(`firstName`, `lastName`, `email`, `title`, `jobPosition`) VALUES (?)";
 
-    const author = await prisma.author.create({
-      data: {
-        firstName: authorData.firstName,
-        lastName: authorData.lastName,
-        email: authorData.email,
-        title: authorData.title,
-        jobPosition: authorData.jobPosition,
-      },
-    });
+  const values = [
+    req.body.firstName,
+    req.body.lastName,
+    req.body.email,
+    req.body.title,
+    req.body.jobPosition,
+  ];
 
-    res.status(200).json({
+  db.query(q, [values], (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        payload: null,
+        message: err.message,
+      });
+    }
+    return res.status(200).json({
       success: true,
-      payload: author,
+      payload: data,
       message: "Author Created Successfully",
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      payload: null,
-      message: error.message,
-    });
-  }
+  });
 };
 
 export const updateAuthor = async (req, res) => {
-  try {
-    const author = await prisma.author.update({
-      where: {
-        id: Number(req.params.id),
-      },
-      data: {
-        ...req.body,
-      },
-    });
+  const authorId = req.params.id;
 
-    res.status(200).json({
+  const q =
+    "UPDATE authors SET `firstName` =?, `lastName` =?, `email` =?, `title` =?, `jobPosition` =? WHERE `id` = ?";
+
+  const values = [
+    req.body.firstName,
+    req.body.lastName,
+    req.body.email,
+    req.body.title,
+    req.body.jobPosition,
+  ];
+
+  // REQUIRE ALL THE VALUES OF THE OLD AUTHOR DATA THATS NOT UPDATED
+  db.query(q, [...values, authorId], (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        payload: null,
+        message: err.message,
+      });
+    }
+    return res.status(200).json({
       success: true,
-      payload: author,
+      payload: data,
       message: "Author Updated Successfully",
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      payload: null,
-      message: error.message,
-    });
-  }
+  });
 };
 
 export const deleteAuthor = async (req, res) => {
-  try {
-    const author = await prisma.author.delete({
-      where: {
-        id: Number(req.params.id),
-      },
-    });
+  const q = "DELETE FROM authors WHERE `id` = ?";
 
-    res.status(200).json({
+  db.query(q, [req.params.id], (err, data) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        payload: null,
+        message: err.message,
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      payload: author,
+      payload: data,
       message: "Author Deleted Successfully",
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      payload: null,
-      message: error.message,
-    });
-  }
+  });
 };
+
+/* -------------------------------------------------------------------------- */
+/* ------------------------------- WITH PRISMA ------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+// import prisma from "../../../helper/prisma_client.js";
+
+// export const getAuthors = async (req, res) => {
+//   try {
+//     const authors = await prisma.author.findMany();
+
+//     res.status(200).json({
+//       success: true,
+//       payload: authors,
+//       message: "Authors list",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       payload: null,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// export const getAuthorById = async (req, res) => {
+//   try {
+//     const author = await prisma.author.findUnique({
+//       where: {
+//         id: Number(req.params.id),
+//       },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       payload: author,
+//       message: "Author Found",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       payload: null,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// export const createAuthor = async (req, res) => {
+//   try {
+//     const authorData = req.body;
+
+//     const author = await prisma.author.create({
+//       data: {
+//         firstName: authorData.firstName,
+//         lastName: authorData.lastName,
+//         email: authorData.email,
+//         title: authorData.title,
+//         jobPosition: authorData.jobPosition,
+//       },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       payload: author,
+//       message: "Author Created Successfully",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       payload: null,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// export const updateAuthor = async (req, res) => {
+//   try {
+//     const author = await prisma.author.update({
+//       where: {
+//         id: Number(req.params.id),
+//       },
+//       data: {
+//         ...req.body,
+//       },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       payload: author,
+//       message: "Author Updated Successfully",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       payload: null,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// export const deleteAuthor = async (req, res) => {
+//   try {
+//     const author = await prisma.author.delete({
+//       where: {
+//         id: Number(req.params.id),
+//       },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       payload: author,
+//       message: "Author Deleted Successfully",
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       payload: null,
+//       message: error.message,
+//     });
+//   }
+// };
