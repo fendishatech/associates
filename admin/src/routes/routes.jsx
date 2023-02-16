@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { Layout, Home, Authors } from "../views/index";
+import { Layout, Home, Authors, NewAuthor, EditAuthor } from "../views/index";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +14,14 @@ const router = createBrowserRouter([
       {
         path: "/authors",
         element: <Authors />,
+      },
+      {
+        path: "/authors/new",
+        element: <NewAuthor />,
+      },
+      {
+        path: "/authors/edit/:id",
+        element: <EditAuthor />,
       },
     ],
   },
