@@ -58,14 +58,16 @@ const getJobById = async (req, res) => {
 
 const createJob = async (req, res) => {
   const q =
-    "INSERT INTO jobs(`firstName`, `lastName`, `email`, `title`, `jobPosition`) VALUES (?)";
+    "INSERT INTO jobs(`title`, `level`, `deadline`, `edu_level`, `experience`, `description`, `requirements`) VALUES (?)";
 
   const values = [
-    req.body.firstName,
-    req.body.lastName,
-    req.body.email,
     req.body.title,
-    req.body.jobPosition,
+    req.body.level,
+    req.body.deadline,
+    req.body.edu_level,
+    req.body.experience,
+    req.body.description,
+    req.body.requirements,
   ];
 
   db.query(q, [values], (err, data) => {
@@ -88,14 +90,16 @@ const updateJob = async (req, res) => {
   const jobId = req.params.id;
 
   const q =
-    "UPDATE jobs SET `firstName` =?, `lastName` =?, `email` =?, `title` =?, `jobPosition` =? WHERE `id` = ?";
+    "UPDATE jobs SET `title` = ?, `level` = ?, `deadline` = ?, `edu_level` = ?, `experience` = ?, `description` = ?, `requirements` = ? WHERE `id` = ?";
 
   const values = [
-    req.body.firstName,
-    req.body.lastName,
-    req.body.email,
     req.body.title,
-    req.body.jobPosition,
+    req.body.level,
+    req.body.deadline,
+    req.body.edu_level,
+    req.body.experience,
+    req.body.description,
+    req.body.requirements,
   ];
 
   // REQUIRE ALL THE VALUES OF THE OLD JOB DATA THATS NOT UPDATED

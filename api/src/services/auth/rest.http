@@ -1,0 +1,35 @@
+###
+POST http://localhost:8888/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Kidus",
+    "lastName" : "Taye",
+    "email"   :   "kidus9@gmail.com",
+    "title" :      "Dr.",
+    "jobPosition" : "Fullstack Developer"
+}
+
+###
+POST http://localhost:8888/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Kidus",
+    "lastName" : "Taye",
+    "email"   :   "kidus9@gmail.com",
+    "title" :      "Dr.",
+    "jobPosition" : "Fullstack Developer"
+}
+
+###
+POST http://localhost:8888/api/auth/logout HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstName" : "Kidus",
+    "lastName" : "Taye",
+    "email"   :   "kidus9@gmail.com",
+    "title" :      "Dr.",
+    "jobPosition" : "Fullstack Developer"
+}

@@ -2,18 +2,20 @@
 GET http://localhost:8888/api/jobs HTTP/1.1
 
 ###
-GET http://localhost:8888/api/jobs/7 HTTP/1.1
+GET http://localhost:8888/api/jobs/1 HTTP/1.1
 
 ###
 POST http://localhost:8888/api/jobs/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstName" : "Kidus",
-    "lastName" : "Taye",
-    "email"   :   "kidus8@gmail.com",
-    "title" :      "Dr.",
-    "jobPosition" : "Fullstack Developer"
+    "title" : "Software Developer",
+    "level" : "Expert",
+    "deadline" : "Sat, 18 Feb 2015 18:27:50 GMT",
+    "edu_level" : "Masters of Bachler degree in computer Science and related feilds",
+    "experience" : "2 years and above",
+    "description" : "Worked with these these databases, know how to make these these technical tasks",
+    "requirements" : "Requirements include but are not limited to reliable, good working habit and a team player"
 }
 
 ###
