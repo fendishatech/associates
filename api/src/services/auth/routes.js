@@ -1,13 +1,11 @@
 const express = require("express");
 
-const authorController = require("./controller.js");
+const authController = require("./controller.js");
 
-const authorRouter = express.Router();
+const authRouter = express.Router();
 
-authorRouter.get(`/`, authorController.getAuthors);
-authorRouter.post(`/`, authorController.createAuthor);
-authorRouter.get(`/:id`, authorController.getAuthorById);
-authorRouter.put(`/:id`, authorController.updateAuthor);
-authorRouter.delete(`/:id`, authorController.deleteAuthor);
+authRouter.get(`/register`, authController.register);
+authRouter.get(`/login`, authController.login);
+authRouter.post(`/logout`, authController.logout);
 
-module.exports = authorRouter;
+module.exports = authRouter;
