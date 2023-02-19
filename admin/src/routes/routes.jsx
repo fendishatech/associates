@@ -10,6 +10,7 @@ import {
   NewJob,
   EditJob,
   JobDetail,
+  Login,
 } from "../views/index";
 
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
         element: <JobDetail />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 

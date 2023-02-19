@@ -9,9 +9,11 @@ import Jobs from "./job/Jobs";
 import NewJob from "./job/NewJob";
 import EditJob from "./job/EditJob";
 import JobDetail from "./job/JobDetail";
-
+// AUTH
+import Login from "./auth/Login";
 export {
   Layout,
+  Login,
   Home,
   Authors,
   NewAuthor,
